@@ -1,0 +1,22 @@
+<script type='text/javascript'>
+    window.thumbsYup = {
+      settings: {
+        reviewStyle: <%= "'#{settings[:review_style]}'" %>,
+        reviewColor: <%= "'#{settings[:review_color]}'" %>,
+        reviewBackground: <%= "'#{settings[:review_background]}'" %>,
+        reviewSize: <%= "'#{settings[:review_size]}'" %>,
+        thumbsYupUrl: <%= "'#{settings[:thumbs_yup_url]}'" %>
+      },
+      pagination: {
+        currentPage: <%= "#{pagination[:current_page]}" %>,
+        totalCount: <%= "#{pagination[:total_count]}" %>,
+        perPage: <%= "#{pagination[:per_page]}" %>
+      }
+    }
+</script>
+<div class="thumbsYup">
+  <div class="pagination">
+  </div>
+<%= reviews_html %>
+</div>
+<script type='text/javascript' src=<%= "'#{settings[:thumbs_yup_url]}" %>/assets/thumbs-yup-client.js'></script>
