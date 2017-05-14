@@ -1,23 +1,42 @@
 require 'erb'
 require 'ostruct'
+require_relative 'review_decorator'
 
 class TemplateRenderer < OpenStruct
-  def self.render_review(vars)
-    style = ThumbsYup.configuration.review_style
-    background = ThumbsYup.configuration.review_background
-    template_file = style + "_" + background + ".erb"
+  class << self
+    def render_page(vars)
+      vars[:reviews] = reviews_html(vars[:reviews])
 
-    template = File.read(
-      File.join(File.dirname(__FILE__), 'templates', template_file)
-    )
-    TemplateRenderer.new(vars).render(template)
-  end
+      TemplateRenderer.new(vars).render(page_template)
+    end
 
-  def self.render_page(vars)
-    template = File.read(
-      File.join(File.dirname(__FILE__), 'reviews.erb')
-    )
-    TemplateRenderer.new(vars).render(template)
+    private
+
+    def reviews_html(reviews)
+      reviews.reduce("") do |acc, review|
+        acc << render_review(review)
+      end
+    end
+
+    def render_review(vars)
+      vars = ReviewDecorator.new(vars).review
+      TemplateRenderer.new(vars).render(review_template)
+    end
+
+    def review_template
+      style = ThumbsYup.configuration.review_style
+      background = ThumbsYup.configuration.review_background
+      template_file = style + "_" + background + ".erb"
+      File.read(
+        File.join(File.dirname(__FILE__), 'templates', template_file)
+      )
+    end
+
+    def page_template
+      File.read(
+        File.join(File.dirname(__FILE__), 'reviews.erb')
+      )
+    end
   end
 
   def render(template)

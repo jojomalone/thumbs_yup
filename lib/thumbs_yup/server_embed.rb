@@ -8,20 +8,14 @@ module ThumbsYup
       def render_public_reviews(page: nil)
         check_user_identifer!
 
-        reviews_html = ""
-
         review_data = json_review_data(page: page)
         reviews = review_data["reviews"]
         metadata = review_data["metadata"]
 
-        reviews.each do |review|
-          reviews_html += decorate(review)
-        end
-
         html = TemplateRenderer::render_page(
           settings: settings,
           pagination: pagination(metadata),
-          reviews_html: reviews_html
+          reviews: reviews
         )
 
         html.html_safe
@@ -54,10 +48,6 @@ module ThumbsYup
         http = Net::HTTP.new(uri.host, uri.port)
         response = http.request(request)
         JSON.parse(response.body)
-      end
-
-      def decorate(json_review)
-        TemplateRenderer::render_review(json_review)
       end
 
       def settings

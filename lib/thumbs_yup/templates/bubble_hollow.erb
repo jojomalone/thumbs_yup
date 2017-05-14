@@ -1,8 +1,10 @@
   <div class="review<%= ThumbsYup.configuration.review_size.capitalize %>">
     <div class="rstyle<%= ThumbsYup.configuration.review_color.capitalize + ThumbsYup.configuration.review_style.capitalize + ThumbsYup.configuration.review_background.capitalize %>">
-      <%= CGI::escapeHTML(body) %>
+      <%= body %>
     </div>
     <p class="signature">
-      <%= CGI::escapeHTML(first_name) %>
+      <%= full_name %><% unless full_name.blank? %><br><% end %>
+      <%= title_and_business_name %><% unless title_and_business_name.blank? %><br><% end %>
+      <%= city_state_and_country %>
     </p>
   </div>
