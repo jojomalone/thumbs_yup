@@ -4,7 +4,7 @@ class ReviewDecorator
   def initialize(vars)
     @review = {
       "body" => vars["body"],
-      "full_name" => "#{vars["first_name"]} #{vars["last_name"]}",
+      "full_name" => full_name(vars),
       "title_and_business_name" =>  title_and_business_name(vars),
       "city_state_and_country" =>  city_state_and_country(vars),
     }
@@ -12,6 +12,15 @@ class ReviewDecorator
   end
 
   private
+
+  def full_name(vars)
+    return "Anonymous" unless vars["first_name"] || vars["middle_name"] || vars["last_name"] || vars["business_name"]
+
+    separator1 = " " if vars["first_name"] && vars["middle_name"]
+    separator2 = " " if (vars["first_name"] && vars["last_name"]) || (vars["middle_name"] && vars["last_name"])
+
+    "#{vars["first_name"]}#{separator1}#{vars["middle_name"]}#{separator2}#{vars["last_name"]}"
+  end
 
   def title_and_business_name(vars)
     separator = ", " if vars["title"] && vars["business_name"]
