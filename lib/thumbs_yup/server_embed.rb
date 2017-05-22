@@ -18,7 +18,7 @@ module ThumbsYup
           reviews: reviews
         )
 
-        html.html_safe
+        html.respond_to?(:html_safe) ? html.html_safe : html
       end
 
       private

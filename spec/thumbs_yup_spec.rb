@@ -37,6 +37,7 @@ RSpec.describe ThumbsYup do
         ]
       }
     )
+    allow(ThumbsYup::ServerEmbed).to receive(:check_user_identifer!)
   end
 
   it "has a version number" do

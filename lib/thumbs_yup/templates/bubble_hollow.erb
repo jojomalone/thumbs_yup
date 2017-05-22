@@ -3,8 +3,8 @@
       <%= body %>
     </div>
     <p class="signature">
-      <%= full_name %><% unless full_name.blank? %><br><% end %>
-      <%= title_and_business_name %><% unless title_and_business_name.blank? %><br><% end %>
+      <%= full_name %><% unless full_name.empty? %><br><% end %>
+      <%= title_and_business_name %><% unless title_and_business_name.empty? %><br><% end %>
       <%= city_state_and_country %>
     </p>
   </div>
