@@ -12,7 +12,7 @@ module ThumbsYup
         reviews = review_data["reviews"]
         metadata = review_data["metadata"]
 
-        html = TemplateRenderer::render_page(
+        html = ThumbsYup::TemplateRenderer::render_page(
           settings: settings,
           pagination: pagination(metadata),
           reviews: reviews
