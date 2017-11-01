@@ -4,7 +4,7 @@ module ThumbsYup
 
     def initialize(vars)
       @review = {
-        "body" => vars["body"],
+        "body" => formatted_body(vars),
         "full_name" => full_name(vars),
         "title_and_business_name" =>  title_and_business_name(vars),
         "city_state_and_country" =>  city_state_and_country(vars),
@@ -13,6 +13,10 @@ module ThumbsYup
     end
 
     private
+
+    def formatted_body(vars)
+      vars["body"].gsub(%r(\n), "<br><br>")
+    end
 
     def full_name(vars)
       return "Anonymous" unless vars["first_name"] || vars["middle_name"] || vars["last_name"] || vars["business_name"]
@@ -37,7 +41,11 @@ module ThumbsYup
     def clean_vars(vars)
       vars.each do |key, value|
         vars[key] ||= ""
-        vars[key] = CGI::escapeHTML(vars[key])
+        vars[key] = if (key == "body")
+                      vars["body"].split("<br>").map { |section| CGI::escapeHTML(section) }.join("<br>")
+                    else
+                      CGI::escapeHTML(vars[key])
+                    end
       end
     end
   end
