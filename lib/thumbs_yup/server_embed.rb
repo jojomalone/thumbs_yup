@@ -4,6 +4,7 @@ module ThumbsYup
       require 'net/http'
       require 'json'
       require_relative 'template_renderer'
+      require_relative 'error_renderer'
 
       def render_public_reviews(page: nil)
         check_user_identifer!
@@ -12,11 +13,17 @@ module ThumbsYup
         reviews = review_data["reviews"]
         metadata = review_data["metadata"]
 
-        html = ThumbsYup::TemplateRenderer::render_page(
-          settings: settings,
-          pagination: pagination(metadata),
-          reviews: reviews
-        )
+        html = if review_data["message"]
+          ThumbsYup::ErrorRenderer::render_page(
+            message: review_data["message"]
+          )
+        else
+          ThumbsYup::TemplateRenderer::render_page(
+            settings: settings,
+            pagination: pagination(metadata),
+            reviews: reviews
+          )
+        end
 
         html.respond_to?(:html_safe) ? html.html_safe : html
       end
@@ -61,6 +68,7 @@ module ThumbsYup
       end
 
       def pagination(metadata)
+        return nil if metadata.nil?
         {
           current_page: metadata["current_page"],
           total_count: metadata["total_count"],
