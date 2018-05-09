@@ -16,8 +16,10 @@ module ThumbsYup
         message = case vars[:message]
         when "Record not found"
           "Error: Please check your configuration and ensure that you have a ThumbsYup account."
+        when "Service unavailable"
+          "Error: A connection could not be made with the ThumbsYup service."
         else
-          "Error:  There was an error retrieving you reviews."
+          "Error: There was an error retrieving your reviews."
         end
 
         vars[:message] = message

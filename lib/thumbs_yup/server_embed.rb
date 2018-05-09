@@ -53,8 +53,15 @@ module ThumbsYup
         request["Accept"] = "application/json"
 
         http = Net::HTTP.new(uri.host, uri.port)
-        response = http.request(request)
-        JSON.parse(response.body)
+        http.use_ssl = true
+
+        response = http.request(request) rescue nil
+
+        if response.present? && !response.body.blank?
+          JSON.parse(response.body)
+        else
+          { "message" => "Service unavailable" }
+        end
       end
 
       def settings

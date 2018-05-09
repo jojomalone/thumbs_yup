@@ -12,7 +12,7 @@ module ThumbsYup
       @review_color = 'blue'
       @review_background = 'hollow'
       @review_size = 'med'
-      @thumbs_yup_url = 'http://www.thumbsyup.com'
+      @thumbs_yup_url = 'https://www.thumbsyup.com'
     end
   end
 end
